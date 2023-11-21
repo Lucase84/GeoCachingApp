@@ -3,18 +3,18 @@ import 'dart:async';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/Routes/connection.dart';
-import 'package:flutter_application_1/Views/register.page.dart';
 import 'package:http/http.dart' as http;
 
-class LoginPage extends StatefulWidget {
-  const LoginPage({super.key});
+class RegisterPage extends StatefulWidget {
+  const RegisterPage({super.key});
 
   @override
-  State<LoginPage> createState() => _LoginPageState();
+  State<RegisterPage> createState() => _RegisterPageState();
 }
 
-class _LoginPageState extends State<LoginPage> {
+class _RegisterPageState extends State<RegisterPage> {
   final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
 
   @override
@@ -32,7 +32,7 @@ class _LoginPageState extends State<LoginPage> {
     return Scaffold(
       appBar: AppBar(
         title: Text(
-          'Login',
+          'Register',
           style: TextStyle(
             fontSize: 22,
             fontWeight: FontWeight.bold,
@@ -44,15 +44,10 @@ class _LoginPageState extends State<LoginPage> {
         actions: <Widget>[
           TextButton(
             onPressed: () async {
-              await Navigator.push(
-                context,
-                MaterialPageRoute<RegisterPage>(
-                  builder: (BuildContext context) => const RegisterPage(),
-                ),
-              );
+              Navigator.pop(context);
             },
             child: Text(
-              'Register',
+              'Login',
               style: TextStyle(
                 fontSize: 15,
                 color: Theme.of(context).colorScheme.onPrimary,
@@ -80,12 +75,25 @@ class _LoginPageState extends State<LoginPage> {
             SizedBox(
               width: MediaQuery.of(context).size.width * 0.85,
               child: TextField(
-                controller: _emailController,
+                controller: _usernameController,
                 decoration: const InputDecoration(
                   floatingLabelAlignment: FloatingLabelAlignment.center,
                   icon: Icon(Icons.person),
                   border: OutlineInputBorder(),
-                  labelText: 'Email or Username',
+                  labelText: 'Username',
+                ),
+              ),
+            ),
+            const SizedBox(height: 20),
+            SizedBox(
+              width: MediaQuery.of(context).size.width * 0.85,
+              child: TextField(
+                controller: _emailController,
+                decoration: const InputDecoration(
+                  floatingLabelAlignment: FloatingLabelAlignment.center,
+                  icon: Icon(Icons.mail),
+                  border: OutlineInputBorder(),
+                  labelText: 'Email',
                 ),
               ),
             ),
@@ -116,7 +124,8 @@ class _LoginPageState extends State<LoginPage> {
                 ),
               ),
               onPressed: () async {
-                await ConnectionManager.login(
+                await ConnectionManager.register(
+                  _usernameController.text,
                   _emailController.text,
                   _passwordController.text,
                 ).then((http.Response response) {
@@ -125,7 +134,7 @@ class _LoginPageState extends State<LoginPage> {
                 });
               },
               child: Text(
-                'Login',
+                'Register',
                 style: TextStyle(
                   fontSize: 15,
                   color: Theme.of(context).colorScheme.onPrimary,
