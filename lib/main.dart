@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Views/login_page.dart';
 
 import 'package:flutter_application_1/Views/map_page.dart';
 import 'package:flutter_application_1/Views/profile_page.dart';
@@ -20,7 +21,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: darkColorScheme,
       ),
-      home: const MyHomePage(),
+      home: const LoginPage(),
     );
   }
 }
