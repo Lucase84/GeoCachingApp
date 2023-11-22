@@ -1,6 +1,8 @@
 import 'dart:async';
 
+import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Objects/geo_cache_marker.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -26,6 +28,21 @@ class _MapPageState extends State<MapPage> {
     speed: 0,
     speedAccuracy: 0,
   );
+
+  final List<GeoCacheMarker> _geoCacheMarkers = <GeoCacheMarker>[
+    GeoCacheMarker(
+      position: const LatLng(43.60769, 3.87500),
+      name: 'Alhambra',
+      photo:
+          'https://cdn.discordapp.com/attachments/807166465068761108/1176878568383451228/image.png?ex=65707894&is=655e0394&hm=0dbc8c736ab736ec94cfb784ffe1caae0cd41bc92265519da7aa10a0a9738d1e&',
+    ),
+    GeoCacheMarker(
+      position: const LatLng(43.63131, 3.87564),
+      name: 'Jean Thuile',
+      photo:
+          'https://cdn.discordapp.com/attachments/807166465068761108/1176877276961452122/image.png?ex=65707760&is=655e0260&hm=05fd9cfeddc5197571bad4d2b78102fe00cafd34e942df15bbdbf88877114232&',
+    ),
+  ];
 
   @override
   void initState() {
@@ -112,11 +129,78 @@ class _MapPageState extends State<MapPage> {
               pos.latitude,
               pos.longitude,
             ),
+            15,
+          );
+        },
+        onDoubleTap: () {
+          _mapController.move(
+            LatLng(
+              pos.latitude,
+              pos.longitude,
+            ),
             19,
           );
         },
       ),
     );
+  }
+
+  Future<void> _displayLongPressMenu(
+      Offset offset, GeoCacheMarker marker) async {
+    final RenderBox renderBox = context.findRenderObject()! as RenderBox;
+    final Offset localOffset = renderBox.globalToLocal(offset);
+
+    await showMenu<String>(
+      context: context,
+      position: RelativeRect.fromLTRB(
+        localOffset.dx,
+        localOffset.dy,
+        localOffset.dx,
+        localOffset.dy,
+      ),
+      items: <PopupMenuEntry<String>>[
+        PopupMenuItem<String>(
+          child: Image.network(marker.photo),
+        ),
+        PopupMenuItem<String>(
+          child: Text(marker.name),
+        ),
+      ],
+    );
+  }
+
+  List<Marker> _geoCachesMarker() {
+    final List<Marker> markers = <Marker>[];
+    for (final GeoCacheMarker marker in _geoCacheMarkers) {
+      markers.add(
+        Marker(
+          point: marker.position,
+          child: GestureDetector(
+            child: const Icon(
+              Icons.location_on,
+              color: Colors.green,
+              size: 30,
+            ),
+            onTap: () {
+              _mapController.move(
+                marker.position,
+                15,
+              );
+            },
+            onDoubleTap: () {
+              _mapController.move(
+                marker.position,
+                19,
+              );
+            },
+            onLongPressDown: (LongPressDownDetails details) async {
+              await _displayLongPressMenu(details.globalPosition, marker);
+            },
+          ),
+        ),
+      );
+    }
+    return markers;
   }
 
   @override
@@ -138,6 +222,7 @@ class _MapPageState extends State<MapPage> {
         MarkerLayer(
           markers: <Marker>[
             _userMarker(_position),
+            ..._geoCachesMarker(),
           ],
         ),
       ],
