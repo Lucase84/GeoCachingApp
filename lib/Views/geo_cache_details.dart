@@ -29,7 +29,7 @@ class _GeoCacheDetailsState extends State<GeoCacheDetails>
     _animation.addListener(
       () => setState(() {
         if (_animationController.value == 1.0) {
-          Navigator.pop(context);
+          // Navigator.pop(context);
         }
       }),
     );
