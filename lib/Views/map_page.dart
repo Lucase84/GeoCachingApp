@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Objects/geo_cache_marker.dart';
+import 'package:flutter_application_1/Views/geo_cache_details.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
@@ -60,7 +61,7 @@ class _MapPageState extends State<MapPage> {
             _position.latitude,
             _position.longitude,
           ),
-          19,
+          15,
         );
       });
     } catch (e) {
@@ -146,12 +147,15 @@ class _MapPageState extends State<MapPage> {
   }
 
   Future<void> _displayLongPressMenu(
-      Offset offset, GeoCacheMarker marker) async {
+    Offset offset,
+    GeoCacheMarker marker,
+  ) async {
     final RenderBox renderBox = context.findRenderObject()! as RenderBox;
     final Offset localOffset = renderBox.globalToLocal(offset);
 
     await showMenu<String>(
       context: context,
+      color: Theme.of(context).colorScheme.surface,
       position: RelativeRect.fromLTRB(
         localOffset.dx,
         localOffset.dy,
@@ -160,10 +164,39 @@ class _MapPageState extends State<MapPage> {
       ),
       items: <PopupMenuEntry<String>>[
         PopupMenuItem<String>(
-          child: Image.network(marker.photo),
+          child: Center(
+            child: Text(
+              marker.name,
+              style: TextStyle(
+                color: Theme.of(context).colorScheme.onSurface,
+              ),
+            ),
+          ),
         ),
         PopupMenuItem<String>(
-          child: Text(marker.name),
+          child: Center(
+            child: Image.network(
+              marker.photo,
+              height: MediaQuery.of(context).size.height * 0.2,
+            ),
+          ),
+        ),
+        PopupMenuItem<String>(
+          child: TextButton(
+            child: const Center(
+              child: Text('Show details'),
+            ),
+            onPressed: () {
+              Navigator.of(context).pop();
+              Navigator.of(context).push(
+                MaterialPageRoute<void>(
+                  builder: (BuildContext context) => GeoCacheDetails(
+                    geoCacheMarker: marker,
+                  ),
+                ),
+              );
+            },
+          ),
         ),
       ],
     );
@@ -208,7 +241,7 @@ class _MapPageState extends State<MapPage> {
     return FlutterMap(
       mapController: _mapController,
       options: const MapOptions(
-        maxZoom: 19,
+        maxZoom: 20,
         initialCenter: LatLng(46.005, 4.812),
         initialZoom: 4.5,
         interactionOptions: InteractionOptions(
