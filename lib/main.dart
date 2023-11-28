@@ -5,6 +5,7 @@ import 'package:flutter_application_1/Views/profile_page.dart';
 import 'package:flutter_application_1/Views/settings_page.dart';
 
 import 'package:flutter_application_1/color_schemes.g.dart';
+import 'package:flutter_application_1/create_geo_cache.dart';
 
 void main() {
   runApp(const MyApp());
@@ -40,20 +41,42 @@ class _MyHomePageState extends State<MyHomePage> {
     SettingsPage(),
   ];
 
+  List<Widget> _getActionsWidgets() {
+    if (currentPage == 0) {
+      return <Widget>[
+        IconButton(
+          icon: Icon(
+            Icons.add_location_alt_outlined,
+            color: Theme.of(context).colorScheme.onPrimary,
+          ),
+          onPressed: () async {
+            await Navigator.of(context).push(
+              MaterialPageRoute<void>(
+                builder: (BuildContext context) => const CreateGeoCache(),
+              ),
+            );
+          },
+        ),
+      ];
+    } else {
+      return <Widget>[];
+    }
+  }
+
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Center(
-          child: Text(
-            'Placeholder',
-            style: TextStyle(
-              fontSize: 20,
-              fontWeight: FontWeight.bold,
-              color: Theme.of(context).colorScheme.onPrimary,
-            ),
+        title: Text(
+          'Placeholder',
+          style: TextStyle(
+            fontSize: 20,
+            fontWeight: FontWeight.bold,
+            color: Theme.of(context).colorScheme.onPrimary,
           ),
         ),
+        centerTitle: true,
+        actions: _getActionsWidgets(),
         backgroundColor: Theme.of(context).colorScheme.primary,
       ),
       body: pages[currentPage],
