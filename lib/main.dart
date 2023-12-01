@@ -6,7 +6,11 @@ import 'package:flutter_application_1/Views/settings_page.dart';
 
 import 'package:flutter_application_1/color_schemes.g.dart';
 
-void main() {
+import 'package:firebase_core/firebase_core.dart';
+
+Future <void> main() async {
+  WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(const MyApp());
 }
 
