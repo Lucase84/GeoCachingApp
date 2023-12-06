@@ -1,14 +1,12 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
-
+import 'package:flutter_application_1/Views/login_page.dart';
 import 'package:flutter_application_1/Views/map_page.dart';
 import 'package:flutter_application_1/Views/profile_page.dart';
 import 'package:flutter_application_1/Views/settings_page.dart';
-
 import 'package:flutter_application_1/color_schemes.g.dart';
 
-import 'package:firebase_core/firebase_core.dart';
-
-Future <void> main() async {
+Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(const MyApp());
@@ -24,7 +22,7 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         colorScheme: darkColorScheme,
       ),
-      home: const MyHomePage(),
+      home: const LoginPage(),
     );
   }
 }
@@ -50,7 +48,7 @@ class _MyHomePageState extends State<MyHomePage> {
       appBar: AppBar(
         title: Center(
           child: Text(
-            'Placeholder',
+            'Geo Cache App',
             style: TextStyle(
               fontSize: 20,
               fontWeight: FontWeight.bold,
