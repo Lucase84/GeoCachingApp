@@ -27,17 +27,17 @@ class _GeoCacheCreationState extends State<GeoCacheCreation> {
     String description,
     XFile? image,
   ) async {
-    final http.Response res = await MapManager.createCache(
+    final http.Response res = await MapManager().createCache(
       name,
       description,
       center.latitude.toString(),
       center.longitude.toString(),
+      image!,
     );
     if (res.statusCode == 200) {
-      debugPrint('Image path: ${image!.path}');
-      debugPrint(
-        'Cache created with name=$name and description=$description at latitude=${center.latitude} and longitude=${center.longitude}',
-      );
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
     }
   }
 

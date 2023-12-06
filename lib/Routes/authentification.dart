@@ -1,8 +1,11 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 
 class AuthenticationService {
-  final FirebaseAuth _auth = FirebaseAuth.instance;
+  final FirebaseAuth _auth = FirebaseAuth.instanceFor(
+    app: Firebase.app(),
+  );
 
   Future<User?> signInWithEmailAndPassword(
     String email,
@@ -30,7 +33,7 @@ class AuthenticationService {
         password: password,
       );
       return result.user;
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       debugPrint(e.toString());
       return null;
     }

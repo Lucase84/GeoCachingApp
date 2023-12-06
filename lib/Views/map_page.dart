@@ -3,6 +3,7 @@ import 'dart:async';
 import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Objects/geo_cache_marker.dart';
+import 'package:flutter_application_1/Routes/map.dart';
 import 'package:flutter_application_1/Views/geo_cache_details.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
@@ -30,25 +31,20 @@ class _MapPageState extends State<MapPage> {
     speedAccuracy: 0,
   );
 
-  final List<GeoCacheMarker> _geoCacheMarkers = <GeoCacheMarker>[
-    GeoCacheMarker(
-      position: const LatLng(43.60769, 3.87500),
-      name: 'Alhambra',
-      photo:
-          'https://cdn.discordapp.com/attachments/807166465068761108/1176878568383451228/image.png?ex=65707894&is=655e0394&hm=0dbc8c736ab736ec94cfb784ffe1caae0cd41bc92265519da7aa10a0a9738d1e&',
-    ),
-    GeoCacheMarker(
-      position: const LatLng(43.63131, 3.87564),
-      name: 'Jean Thuile',
-      photo:
-          'https://cdn.discordapp.com/attachments/807166465068761108/1176877276961452122/image.png?ex=65707760&is=655e0260&hm=05fd9cfeddc5197571bad4d2b78102fe00cafd34e942df15bbdbf88877114232&',
-    ),
-  ];
+  List<GeoCacheMarker> _geoCacheMarkers = <GeoCacheMarker>[];
 
   @override
   void initState() {
     super.initState();
+    unawaited(fetchGeoCaches());
     unawaited(_getCurrentLocation());
+  }
+
+  Future<void> fetchGeoCaches() async {
+    final List<GeoCacheMarker> geoCacheMarkers = await MapManager().getCaches();
+    setState(() {
+      _geoCacheMarkers = geoCacheMarkers;
+    });
   }
 
   Future<void> _getCurrentLocation() async {
@@ -238,6 +234,11 @@ class _MapPageState extends State<MapPage> {
 
   @override
   Widget build(BuildContext context) {
+    if (_geoCacheMarkers.isEmpty) {
+      return const Center(
+        child: CircularProgressIndicator(),
+      );
+    }
     return FlutterMap(
       mapController: _mapController,
       options: const MapOptions(
