@@ -1,9 +1,13 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:flutter/material.dart';
 
 class AuthenticationService {
   final FirebaseAuth _auth = FirebaseAuth.instance;
 
-  Future<User?> signInWithEmailAndPassword(String email, String password) async {
+  Future<User?> signInWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
     try {
       final UserCredential result = await _auth.signInWithEmailAndPassword(
         email: email,
@@ -11,12 +15,15 @@ class AuthenticationService {
       );
       return result.user;
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       return null;
     }
   }
 
-  Future<User?> registerWithEmailAndPassword(String email, String password) async {
+  Future<User?> registerWithEmailAndPassword(
+    String email,
+    String password,
+  ) async {
     try {
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
         email: email,
@@ -24,7 +31,7 @@ class AuthenticationService {
       );
       return result.user;
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
       return null;
     }
   }
@@ -33,7 +40,7 @@ class AuthenticationService {
     try {
       await _auth.signOut();
     } catch (e) {
-      print(e);
+      debugPrint(e.toString());
     }
   }
 }
