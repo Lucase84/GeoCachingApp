@@ -35,9 +35,9 @@ class _GeoCacheCreationState extends State<GeoCacheCreation> {
       image!,
     );
     if (res.statusCode == 200) {
-      debugPrint(
-        'Cache created with name=$name and description=$description at latitude=${center.latitude} and longitude=${center.longitude}',
-      );
+      if (context.mounted) {
+        Navigator.of(context).pop();
+      }
     }
   }
 
