@@ -4,7 +4,9 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/Routes/authentification.dart';
+import 'package:flutter_application_1/State_manager/user_manager.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:provider/provider.dart';
 
 /// This class is the widget of the register page
 class RegisterPage extends StatefulWidget {
@@ -152,6 +154,7 @@ class _RegisterPageState extends State<RegisterPage> {
                       .registerWithEmailAndPassword(
                     _emailController.text,
                     _passwordController.text,
+                    _usernameController.text,
                   );
                   if (user == null) {
                     if (context.mounted) {
@@ -164,6 +167,10 @@ class _RegisterPageState extends State<RegisterPage> {
                   } else {
                     if (context.mounted) {
                       Navigator.pop(context);
+                      debugPrint(user.toString());
+                      context
+                          .read<UserModel>()
+                          .setUser(user, _usernameController.text);
                       await Navigator.of(context).pushReplacement(
                         MaterialPageRoute<MyHomePage>(
                           builder: (BuildContext context) => const MyHomePage(),

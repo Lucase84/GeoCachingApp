@@ -30,6 +30,7 @@ class AuthenticationService {
   Future<User?> registerWithEmailAndPassword(
     String email,
     String password,
+    String name,
   ) async {
     try {
       final UserCredential result = await _auth.createUserWithEmailAndPassword(
@@ -42,6 +43,7 @@ class AuthenticationService {
           .set(
         <String, dynamic>{
           'email': email,
+          'name': name,
         },
       );
       return result.user;
@@ -57,6 +59,26 @@ class AuthenticationService {
       await _auth.signOut();
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+  /// This method is used to get the user name
+  Future<String> getUserName(User? user) async {
+    try {
+      final DocumentSnapshot<Map<String, dynamic>> userSnapshot =
+          await FirebaseFirestore.instance
+              .collection('Users')
+              .doc(user!.uid)
+              .get();
+
+      if (userSnapshot.exists) {
+        final String userName = userSnapshot.data()?['name'] ?? '';
+        return userName;
+      } else {
+        return 'User not found';
+      }
+    } catch (error) {
+      return 'Error';
     }
   }
 }
