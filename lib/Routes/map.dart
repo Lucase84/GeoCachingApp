@@ -67,7 +67,12 @@ class MapManager {
   }
 
   Future<http.Response> deleteCache(String id) async {
-    await geoCaches.doc(id).delete();
-    return http.Response('', 200);
+    try {
+      await geoCaches.doc(id).delete();
+      return http.Response('', 200);
+    } catch (e) {
+      debugPrint(e.toString());
+      return http.Response('', 500);
+    }
   }
 }
