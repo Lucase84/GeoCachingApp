@@ -1,16 +1,23 @@
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/State_manager/user_manager.dart';
 import 'package:flutter_application_1/Views/login_page.dart';
 import 'package:flutter_application_1/Views/map_page.dart';
 import 'package:flutter_application_1/Views/profile_page.dart';
 import 'package:flutter_application_1/Views/settings_page.dart';
 import 'package:flutter_application_1/color_schemes.g.dart';
 import 'package:flutter_application_1/create_geo_cache.dart';
+import 'package:provider/provider.dart';
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
-  runApp(const MyApp());
+  runApp(
+    ChangeNotifierProvider<UserModel>(
+      create: (BuildContext context) => UserModel(),
+      child: const MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {

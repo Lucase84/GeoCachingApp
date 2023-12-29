@@ -4,8 +4,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/Routes/authentification.dart';
+import 'package:flutter_application_1/State_manager/user_manager.dart';
 import 'package:flutter_application_1/Views/register.page.dart';
 import 'package:flutter_application_1/main.dart';
+import 'package:provider/provider.dart';
 
 class LoginPage extends StatefulWidget {
   const LoginPage({super.key});
@@ -137,6 +139,7 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   } else {
                     if (context.mounted) {
+                      context.read<UserModel>().setUser(user);
                       await Navigator.of(context).pushReplacement(
                         MaterialPageRoute<MyHomePage>(
                           builder: (BuildContext context) => const MyHomePage(),
