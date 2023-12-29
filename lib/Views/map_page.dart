@@ -9,7 +9,9 @@ import 'package:flutter_map/flutter_map.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:latlong2/latlong.dart';
 
+/// This class is the widget of the map page
 class MapPage extends StatefulWidget {
+  /// Constructor for MapPage
   const MapPage({super.key});
 
   @override

@@ -6,9 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 
+/// This class is the view for the creation of a GeoCache
 class GeoCacheCreation extends StatefulWidget {
+  /// Constructor for GeoCacheCreation with required parameters
   const GeoCacheCreation({required this.center, super.key});
 
+  /// Center of the map when the GeoCacheCreation view is opened
   final LatLng center;
   @override
   State<GeoCacheCreation> createState() => _GeoCacheCreationState();

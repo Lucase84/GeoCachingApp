@@ -6,7 +6,9 @@ import 'package:flutter_application_1/Views/admin/users_management.dart';
 import 'package:flutter_application_1/Views/login_page.dart';
 import 'package:provider/provider.dart';
 
+/// This class is the widget of the admin page
 class AdminPage extends StatefulWidget {
+  /// Constructor for AdminPage
   const AdminPage({super.key});
 
   @override
