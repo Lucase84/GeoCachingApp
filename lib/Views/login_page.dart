@@ -11,7 +11,9 @@ import 'package:flutter_application_1/Views/register.page.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:provider/provider.dart';
 
+/// This class is the widget of the login page
 class LoginPage extends StatefulWidget {
+  /// Constructor for LoginPage
   const LoginPage({super.key});
 
   @override
