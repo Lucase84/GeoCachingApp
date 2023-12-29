@@ -23,7 +23,7 @@ class _AdminPageState extends State<AdminPage> {
   ];
 
   Future<void> _logOut() async {
-    context.read<UserModel>().setUser(null);
+    context.read<UserModel>().setUser(null, '');
     await AuthenticationService().signOut();
     if (context.mounted) {
       await Navigator.of(context).pushReplacement(

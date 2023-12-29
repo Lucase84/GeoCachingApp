@@ -60,6 +60,7 @@ class UserManager {
         UserData(
           id: user.id,
           email: user.data()['email'] as String,
+          name: user.data()['name'] as String,
         ),
       );
     }

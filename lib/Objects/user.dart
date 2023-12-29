@@ -3,6 +3,7 @@ class UserData {
   /// Constructor for UserData object with required parameters
   UserData({
     required this.email,
+    required this.name,
     required this.id,
   });
 
@@ -11,4 +12,7 @@ class UserData {
 
   /// Id of the user (used to identify the user in the database)
   String id;
+
+  /// Name of the user
+  String name;
 }
