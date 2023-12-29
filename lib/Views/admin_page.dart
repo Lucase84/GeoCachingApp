@@ -1,10 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Routes/authentification.dart';
+import 'package:flutter_application_1/State_manager/user_manager.dart';
 import 'package:flutter_application_1/Views/admin/geo_caches_management.dart';
 import 'package:flutter_application_1/Views/admin/users_management.dart';
 import 'package:flutter_application_1/Views/login_page.dart';
 import 'package:provider/provider.dart';
-import 'package:flutter_application_1/State_manager/user_manager.dart';
 
 class AdminPage extends StatefulWidget {
   const AdminPage({super.key});
