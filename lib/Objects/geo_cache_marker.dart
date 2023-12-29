@@ -1,6 +1,6 @@
 import 'package:latlong2/latlong.dart';
 
-/// GeoCacheMarker object
+/// This class is used to store the data of a GeoCacheMarker
 class GeoCacheMarker {
   /// Constructor for GeoCacheMarker object with required parameters
   GeoCacheMarker({
