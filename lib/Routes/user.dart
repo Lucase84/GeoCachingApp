@@ -1,10 +1,12 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_storage/firebase_storage.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_application_1/Objects/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
-class UserPictureManager {
+class UserManager {
   final User? user = FirebaseAuth.instance.currentUser;
 
   Future<String> uploadImage(XFile image) async {
@@ -29,5 +31,34 @@ class UserPictureManager {
       debugPrint(e.toString());
       return http.Response('', 500);
     }
+  }
+
+  Future<http.Response> deleteUser(String id) async {
+    try {
+      if (user?.uid == id) {
+        return http.Response('', 403);
+      }
+      await FirebaseFirestore.instance.collection('Users').doc(id).delete();
+      return http.Response('', 200);
+    } catch (e) {
+      debugPrint(e.toString());
+      return http.Response('', 500);
+    }
+  }
+
+  Future<List<UserData>> getUsers() async {
+    final List<UserData> users = <UserData>[];
+    final QuerySnapshot<Map<String, dynamic>> querySnapshot =
+        await FirebaseFirestore.instance.collection('Users').get();
+    for (final QueryDocumentSnapshot<Map<String, dynamic>> user
+        in querySnapshot.docs) {
+      users.add(
+        UserData(
+          id: user.id,
+          email: user.data()['email'] as String,
+        ),
+      );
+    }
+    return users;
   }
 }

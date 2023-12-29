@@ -1,10 +1,12 @@
 import 'dart:async';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_application_1/Routes/authentification.dart';
 import 'package:flutter_application_1/State_manager/user_manager.dart';
+import 'package:flutter_application_1/Views/admin_page.dart';
 import 'package:flutter_application_1/Views/register.page.dart';
 import 'package:flutter_application_1/main.dart';
 import 'package:provider/provider.dart';
@@ -28,6 +30,13 @@ class _LoginPageState extends State<LoginPage> {
         DeviceOrientation.portraitUp,
       ]),
     );
+  }
+
+  Future<bool> checkIfAdmin(User? user) async {
+    final DocumentReference<Map<String, dynamic>> doc =
+        FirebaseFirestore.instance.collection('Admins').doc(user!.email);
+    final DocumentSnapshot<Map<String, dynamic>> test = await doc.get();
+    return test.exists;
   }
 
   @override
@@ -138,13 +147,25 @@ class _LoginPageState extends State<LoginPage> {
                       );
                     }
                   } else {
+                    final bool isAdmin = await checkIfAdmin(user);
                     if (context.mounted) {
-                      context.read<UserModel>().setUser(user);
-                      await Navigator.of(context).pushReplacement(
-                        MaterialPageRoute<MyHomePage>(
-                          builder: (BuildContext context) => const MyHomePage(),
-                        ),
-                      );
+                      context.read<UserModel>().setUser(user, isAdmin: isAdmin);
+                      if (isAdmin) {
+                        await Navigator.pushReplacement(
+                          context,
+                          MaterialPageRoute<AdminPage>(
+                            builder: (BuildContext context) =>
+                                const AdminPage(),
+                          ),
+                        );
+                      } else {
+                        await Navigator.of(context).pushReplacement(
+                          MaterialPageRoute<MyHomePage>(
+                            builder: (BuildContext context) =>
+                                const MyHomePage(),
+                          ),
+                        );
+                      }
                     }
                   }
                 },

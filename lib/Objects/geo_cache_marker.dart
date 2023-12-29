@@ -5,9 +5,11 @@ class GeoCacheMarker {
     required this.position,
     required this.photo,
     required this.name,
+    required this.id,
   });
 
   LatLng position;
   String photo;
   String name;
+  String id;
 }
