@@ -6,11 +6,12 @@ import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 import 'package:latlong2/latlong.dart';
 
+/// This class is used to manage the map
 class MapManager {
-  final CollectionReference<Map<String, dynamic>> geoCaches =
+  final CollectionReference<Map<String, dynamic>> _geoCaches =
       FirebaseFirestore.instance.collection('GeoCaches');
 
-  Future<String> uploadImage(XFile image) async {
+  Future<String> _uploadImage(XFile image) async {
     final String path = 'GeoCachesImages/${DateTime.now()}';
     final Reference storageReference = FirebaseStorage.instance.ref(path);
     final UploadTask uploadTask = storageReference.putData(
@@ -21,6 +22,7 @@ class MapManager {
     return downloadURL;
   }
 
+  /// This method is used to create a new cache in the database
   Future<http.Response> createCache(
     String name,
     String description,
@@ -29,8 +31,8 @@ class MapManager {
     XFile image,
   ) async {
     try {
-      final String downloadURL = await uploadImage(image);
-      await geoCaches.add(
+      final String downloadURL = await _uploadImage(image);
+      await _geoCaches.add(
         <String, String>{
           'name': name,
           'description': description,
@@ -46,10 +48,11 @@ class MapManager {
     }
   }
 
+  /// This method is used to get all the caches from the database
   Future<List<GeoCacheMarker>> getCaches() async {
     final List<GeoCacheMarker> geoCacheMarkers = <GeoCacheMarker>[];
     final QuerySnapshot<Map<String, dynamic>> querySnapshot =
-        await geoCaches.get();
+        await _geoCaches.get();
     for (final QueryDocumentSnapshot<Map<String, dynamic>> queryDocumentSnapshot
         in querySnapshot.docs) {
       final GeoCacheMarker geoCacheMarker = GeoCacheMarker(
@@ -66,9 +69,10 @@ class MapManager {
     return geoCacheMarkers;
   }
 
+  /// This method is used to delete a cache from the database
   Future<http.Response> deleteCache(String id) async {
     try {
-      await geoCaches.doc(id).delete();
+      await _geoCaches.doc(id).delete();
       return http.Response('', 200);
     } catch (e) {
       debugPrint(e.toString());

@@ -2,9 +2,12 @@ import 'package:flutter/gestures.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Objects/geo_cache_marker.dart';
 
+/// This class is the view of the details of a geo cache
 class GeoCacheDetails extends StatefulWidget {
+  /// Constructor for GeoCacheDetails with required parameters
   const GeoCacheDetails({required this.geoCacheMarker, super.key});
 
+  /// GeoCacheMarker object of the cache
   final GeoCacheMarker geoCacheMarker;
 
   @override
@@ -27,11 +30,15 @@ class _GeoCacheDetailsState extends State<GeoCacheDetails>
     _animation =
         IntTween(begin: 0, end: _maxWidth).animate(_animationController);
     _animation.addListener(
-      () => setState(() {
-        if (_animationController.value == 1.0) {
-          // Navigator.pop(context);
-        }
-      }),
+      () => setState(
+        () {
+          if (_animationController.value == 1.0) {
+            if (context.mounted) {
+              Navigator.pop(context);
+            }
+          }
+        },
+      ),
     );
   }
 

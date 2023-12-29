@@ -6,10 +6,11 @@ import 'package:flutter_application_1/Objects/user.dart';
 import 'package:http/http.dart' as http;
 import 'package:image_picker/image_picker.dart';
 
+/// This class is used to manage the user (update picture, delete user, get users)
 class UserManager {
-  final User? user = FirebaseAuth.instance.currentUser;
+  final User? _user = FirebaseAuth.instance.currentUser;
 
-  Future<String> uploadImage(XFile image) async {
+  Future<String> _uploadImage(XFile image) async {
     final String path = 'ProfileImages/${DateTime.now()}';
     final Reference storageReference = FirebaseStorage.instance.ref(path);
     final UploadTask uploadTask = storageReference.putData(
@@ -20,12 +21,13 @@ class UserManager {
     return downloadURL;
   }
 
+  /// This method is used to update the picture of the user in the database
   Future<http.Response> updateUserPicture(
     XFile image,
   ) async {
     try {
-      final String downloadURL = await uploadImage(image);
-      await user?.updatePhotoURL(downloadURL);
+      final String downloadURL = await _uploadImage(image);
+      await _user?.updatePhotoURL(downloadURL);
       return http.Response(downloadURL, 200);
     } catch (e) {
       debugPrint(e.toString());
@@ -33,9 +35,10 @@ class UserManager {
     }
   }
 
+  /// This method is used to delete the user from the database
   Future<http.Response> deleteUser(String id) async {
     try {
-      if (user?.uid == id) {
+      if (_user?.uid == id) {
         return http.Response('', 403);
       }
       await FirebaseFirestore.instance.collection('Users').doc(id).delete();
@@ -46,6 +49,7 @@ class UserManager {
     }
   }
 
+  /// This method is used to get all the users from the database
   Future<List<UserData>> getUsers() async {
     final List<UserData> users = <UserData>[];
     final QuerySnapshot<Map<String, dynamic>> querySnapshot =

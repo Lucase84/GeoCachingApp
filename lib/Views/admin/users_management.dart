@@ -5,7 +5,9 @@ import 'package:flutter_application_1/Objects/user.dart';
 import 'package:flutter_application_1/Routes/user.dart';
 import 'package:http/http.dart' as http;
 
+/// This class is used to manage the users (delete, get) in the admin view
 class UserManagement extends StatefulWidget {
+  /// Constructor for UserManagement
   const UserManagement({super.key});
 
   @override
@@ -18,10 +20,10 @@ class _UserManagementState extends State<UserManagement> {
   @override
   void initState() {
     super.initState();
-    unawaited(fetchUsers());
+    unawaited(_fetchUsers());
   }
 
-  Future<void> fetchUsers() async {
+  Future<void> _fetchUsers() async {
     final List<UserData> users = await UserManager().getUsers();
     setState(() {
       _users = users;
@@ -53,7 +55,7 @@ class _UserManagementState extends State<UserManagement> {
                   ),
                 );
               }
-              await fetchUsers();
+              await _fetchUsers();
             },
           ),
         );
