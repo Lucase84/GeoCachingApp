@@ -5,7 +5,7 @@ import 'package:flutter_application_1/Views/login_page.dart';
 import 'package:flutter_application_1/Views/map_page.dart';
 import 'package:flutter_application_1/Views/profile_page.dart';
 import 'package:flutter_application_1/Views/settings_page.dart';
-import 'package:flutter_application_1/color_schemes.g.dart';
+import 'package:flutter_application_1/color_schemes.dart';
 import 'package:flutter_application_1/create_geo_cache.dart';
 import 'package:provider/provider.dart';
 
@@ -35,7 +35,9 @@ class MyApp extends StatelessWidget {
   }
 }
 
+/// This class is the widget of the home page
 class MyHomePage extends StatefulWidget {
+  /// Constructor for MyHomePage
   const MyHomePage({super.key});
 
   @override
