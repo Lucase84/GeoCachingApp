@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 
+/// This class is the widget of the settings page
 class SettingsPage extends StatefulWidget {
+  /// Constructor for SettingsPage
   const SettingsPage({super.key});
 
   @override
