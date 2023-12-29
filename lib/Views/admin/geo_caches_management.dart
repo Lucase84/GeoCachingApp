@@ -4,6 +4,7 @@ import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Objects/geo_cache_marker.dart';
 import 'package:flutter_application_1/Routes/map.dart';
 import 'package:flutter_application_1/Views/geo_cache_details.dart';
+import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 
 class GeoCachesManagement extends StatefulWidget {
@@ -53,8 +54,9 @@ class _GeoCachesManagementState extends State<GeoCachesManagement> {
           trailing: IconButton(
             icon: const Icon(Icons.delete),
             onPressed: () async {
-              await MapManager().deleteCache(_geoCacheMarkers[index].id);
-              if (context.mounted) {
+              final http.Response res =
+                  await MapManager().deleteCache(_geoCacheMarkers[index].id);
+              if (res.statusCode == 200 && context.mounted) {
                 ScaffoldMessenger.of(context).showSnackBar(
                   const SnackBar(
                     content: Text('GeoCache deleted'),
