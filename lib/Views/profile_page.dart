@@ -38,7 +38,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
   // Function to log out the user
   Future<void> _logOut() async {
-    context.read<UserModel>().setUser(null);
+    context.read<UserModel>().setUser(null, '');
     await AuthenticationService().signOut();
     if (context.mounted) {
       await Navigator.of(context).pushReplacement(
@@ -92,7 +92,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
             // Display user name
             Text(
-              userModel.user?.displayName ?? 'No name available',
+              userModel.userName ?? 'No name available',
               style: const TextStyle(
                 fontWeight: FontWeight.bold,
                 fontSize: 18,
