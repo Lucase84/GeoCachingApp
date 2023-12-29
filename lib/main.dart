@@ -20,7 +20,9 @@ Future<void> main() async {
   );
 }
 
+/// This class is the widget of the application
 class MyApp extends StatelessWidget {
+  /// Constructor for MyApp
   const MyApp({super.key});
 
   @override
