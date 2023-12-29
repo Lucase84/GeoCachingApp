@@ -1,6 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/Routes/authentification.dart';
-import 'package:flutter_application_1/Routes/user_picture.dart';
+import 'package:flutter_application_1/Routes/user.dart';
 import 'package:flutter_application_1/State_manager/user_manager.dart';
 import 'package:flutter_application_1/Views/login_page.dart';
 import 'package:http/http.dart' as http;
@@ -23,7 +23,7 @@ class _ProfilePageState extends State<ProfilePage> {
 
     if (pickedFile != null) {
       final http.Response res =
-          await UserPictureManager().updateUserPicture(pickedFile);
+          await UserManager().updateUserPicture(pickedFile);
 
       if (res.statusCode == 200) {
         // Update the picture display with the new one using the captured context
