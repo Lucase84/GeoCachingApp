@@ -15,6 +15,7 @@ import 'package:flutter/foundation.dart'
 /// );
 /// ```
 class DefaultFirebaseOptions {
+  // ignore: public_member_api_docs
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
       return web;
@@ -45,6 +46,7 @@ class DefaultFirebaseOptions {
           'DefaultFirebaseOptions have not been configured for linux - '
           'you can reconfigure this by running the FlutterFire CLI again.',
         );
+      // ignore: no_default_cases
       default:
         throw UnsupportedError(
           'DefaultFirebaseOptions are not supported for this platform.',
@@ -58,7 +60,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '836126149672',
     projectId: 'flutter-10416',
     authDomain: 'flutter-10416.firebaseapp.com',
-    databaseURL: 'https://flutter-10416-default-rtdb.europe-west1.firebasedatabase.app',
+    databaseURL:
+        'https://flutter-10416-default-rtdb.europe-west1.firebasedatabase.app',
     storageBucket: 'flutter-10416.appspot.com',
     measurementId: 'G-GSNZ8NX9NE',
   );
