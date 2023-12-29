@@ -59,13 +59,15 @@ class MapManager {
           double.parse(queryDocumentSnapshot.data()['longitude'] as String),
         ),
         photo: queryDocumentSnapshot.data()['imageURL'] as String,
+        id: queryDocumentSnapshot.id,
       );
       geoCacheMarkers.add(geoCacheMarker);
     }
     return geoCacheMarkers;
   }
 
-  static Future<http.Response> deleteCache(String id) async {
+  Future<http.Response> deleteCache(String id) async {
+    await geoCaches.doc(id).delete();
     return http.Response('', 200);
   }
 }
