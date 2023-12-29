@@ -6,7 +6,9 @@ import 'package:flutter/services.dart';
 import 'package:flutter_application_1/Routes/authentification.dart';
 import 'package:flutter_application_1/main.dart';
 
+/// This class is the widget of the register page
 class RegisterPage extends StatefulWidget {
+  /// Constructor for RegisterPage
   const RegisterPage({super.key});
 
   @override
