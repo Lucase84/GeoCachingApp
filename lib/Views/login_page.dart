@@ -150,8 +150,12 @@ class _LoginPageState extends State<LoginPage> {
                     }
                   } else {
                     final bool isAdmin = await checkIfAdmin(user);
+                    final String userName =
+                        await AuthenticationService().getUserName(user);
                     if (context.mounted) {
-                      context.read<UserModel>().setUser(user, isAdmin: isAdmin);
+                      context
+                          .read<UserModel>()
+                          .setUser(user, userName, isAdmin: isAdmin);
                       if (isAdmin) {
                         await Navigator.pushReplacement(
                           context,
