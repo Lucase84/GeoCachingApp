@@ -3,7 +3,9 @@ import 'package:flutter_application_1/Views/geo_cache_creation.dart';
 import 'package:flutter_map/flutter_map.dart';
 import 'package:latlong2/latlong.dart';
 
+/// This class is the view for the creation of a GeoCache
 class CreateGeoCache extends StatefulWidget {
+  /// Constructor for CreateGeoCache
   const CreateGeoCache({super.key});
 
   @override
