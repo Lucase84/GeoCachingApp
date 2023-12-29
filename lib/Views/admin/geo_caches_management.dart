@@ -7,7 +7,9 @@ import 'package:flutter_application_1/Views/geo_cache_details.dart';
 import 'package:http/http.dart' as http;
 import 'package:latlong2/latlong.dart';
 
+/// This class is used to manage the geo caches (create, delete, get) in the admin view
 class GeoCachesManagement extends StatefulWidget {
+  /// Constructor for GeoCachesManagement
   const GeoCachesManagement({super.key});
 
   @override
@@ -20,10 +22,10 @@ class _GeoCachesManagementState extends State<GeoCachesManagement> {
   @override
   void initState() {
     super.initState();
-    unawaited(fetchGeoCaches());
+    unawaited(_fetchGeoCaches());
   }
 
-  Future<void> fetchGeoCaches() async {
+  Future<void> _fetchGeoCaches() async {
     final List<GeoCacheMarker> geoCacheMarkers = await MapManager().getCaches();
     setState(() {
       _geoCacheMarkers = geoCacheMarkers;
@@ -63,7 +65,7 @@ class _GeoCachesManagementState extends State<GeoCachesManagement> {
                   ),
                 );
               }
-              await fetchGeoCaches();
+              await _fetchGeoCaches();
             },
           ),
         );
