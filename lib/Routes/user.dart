@@ -47,18 +47,17 @@ class UserManager {
   }
 
   Future<List<UserData>> getUsers() async {
+    final List<UserData> users = <UserData>[];
     final QuerySnapshot<Map<String, dynamic>> querySnapshot =
         await FirebaseFirestore.instance.collection('Users').get();
-    final List<UserData> users = <UserData>[];
-    for (final QueryDocumentSnapshot<Map<String, dynamic>> queryDocumentSnapshot
+    for (final QueryDocumentSnapshot<Map<String, dynamic>> user
         in querySnapshot.docs) {
-      final UserData user = UserData(
-        name: queryDocumentSnapshot.data()['name'] as String,
-        email: queryDocumentSnapshot.data()['email'] as String,
-        pictureURL: queryDocumentSnapshot.data()['pictureURL'] as String,
-        id: queryDocumentSnapshot.id,
+      users.add(
+        UserData(
+          id: user.id,
+          email: user.data()['email'] as String,
+        ),
       );
-      users.add(user);
     }
     return users;
   }
