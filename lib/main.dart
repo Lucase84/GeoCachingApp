@@ -1,4 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
+import 'package:flutter/foundation.dart' show kIsWeb, TargetPlatform, defaultTargetPlatform;
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/State_manager/user_manager.dart';
 import 'package:flutter_application_1/Views/login_page.dart';
@@ -8,16 +9,22 @@ import 'package:flutter_application_1/Views/settings_page.dart';
 import 'package:flutter_application_1/color_schemes.dart';
 import 'package:flutter_application_1/create_geo_cache.dart';
 import 'package:provider/provider.dart';
+import 'firebase_options.dart';
 
-Future<void> main() async {
+
+
+void main() async {
   WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
-  runApp(
-    ChangeNotifierProvider<UserModel>(
-      create: (BuildContext context) => UserModel(),
-      child: const MyApp(),
-    ),
-  );
+
+  if (kIsWeb) {
+    await Firebase.initializeApp(
+      options: DefaultFirebaseOptions.web,
+    );
+  } else {
+    await Firebase.initializeApp();
+  }
+
+  runApp(const MyApp());
 }
 
 /// This class is the widget of the application
