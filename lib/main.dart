@@ -24,13 +24,19 @@ void main() async {
     await Firebase.initializeApp();
   }
 
-  runApp(const MyApp());
+  runApp(
+    MultiProvider(
+      providers: [
+        ChangeNotifierProvider(create: (_) => UserModel()),
+        // Add other providers if needed
+      ],
+      child: const MyApp(),
+    ),
+  );
 }
 
-/// This class is the widget of the application
 class MyApp extends StatelessWidget {
-  /// Constructor for MyApp
-  const MyApp({super.key});
+  const MyApp({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
