@@ -1,5 +1,5 @@
 import 'package:firebase_core/firebase_core.dart';
-import 'package:flutter/foundation.dart' show kIsWeb, TargetPlatform, defaultTargetPlatform;
+import 'package:flutter/foundation.dart' show kIsWeb;
 import 'package:flutter/material.dart';
 import 'package:flutter_application_1/State_manager/user_manager.dart';
 import 'package:flutter_application_1/Views/login_page.dart';
@@ -8,10 +8,9 @@ import 'package:flutter_application_1/Views/profile_page.dart';
 import 'package:flutter_application_1/Views/settings_page.dart';
 import 'package:flutter_application_1/color_schemes.dart';
 import 'package:flutter_application_1/create_geo_cache.dart';
+import 'package:flutter_application_1/firebase_options.dart';
 import 'package:provider/provider.dart';
-import 'firebase_options.dart';
-
-
+import 'package:provider/single_child_widget.dart';
 
 void main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -26,8 +25,10 @@ void main() async {
 
   runApp(
     MultiProvider(
-      providers: [
-        ChangeNotifierProvider(create: (_) => UserModel()),
+      providers: <SingleChildWidget>[
+        ChangeNotifierProvider<UserModel>(
+          create: (_) => UserModel(),
+        ),
         // Add other providers if needed
       ],
       child: const MyApp(),
@@ -35,8 +36,10 @@ void main() async {
   );
 }
 
+/// This class is the widget of the app
 class MyApp extends StatelessWidget {
-  const MyApp({Key? key}) : super(key: key);
+  /// Constructor for MyApp
+  const MyApp({super.key});
 
   @override
   Widget build(BuildContext context) {
